@@ -1,6 +1,8 @@
 package org.example.writer;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -16,11 +18,11 @@ public class FileResultWriter implements ResultWriter{
     }
 
     @Override
-    public void write(Map<String, Double> results){
+    public void write(Map<String, BigDecimal> results){
         List<String> lines = new ArrayList<>();
 
         results.forEach((company, totalCost) -> {
-            String line = company + " - " + String.format("%.2f", totalCost);
+            String line = company + " - " + totalCost.setScale(2, RoundingMode.HALF_UP).toPlainString();
             lines.add(line);
         });
 

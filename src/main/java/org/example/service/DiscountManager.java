@@ -3,7 +3,7 @@ package org.example.service;
 public class DiscountManager {
 
     private int currentDiscount;
-    private int step;
+    private final int step;
 
     public DiscountManager (int currentDiscount, int step){
         this.currentDiscount = currentDiscount;

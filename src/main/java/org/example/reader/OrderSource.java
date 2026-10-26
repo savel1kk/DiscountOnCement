@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface OrderSource {
 
-    List<Order> read();
+    List<Order> read(String filePath);
     boolean isSupported(String filePath);
 }

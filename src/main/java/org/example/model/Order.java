@@ -1,14 +1,15 @@
 package org.example.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Order {
 
     private LocalDateTime time;
     private String company;
-    private double weight;
+    private BigDecimal weight;
 
-    public Order (LocalDateTime time, String company, double weight){
+    public Order (LocalDateTime time, String company, BigDecimal weight){
         this.time = time;
         this.company = company;
         this.weight = weight;
@@ -22,7 +23,7 @@ public class Order {
         return company;
     }
 
-    public double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 

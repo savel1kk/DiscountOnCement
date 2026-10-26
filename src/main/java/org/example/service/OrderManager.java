@@ -9,10 +9,10 @@ import java.util.List;
 
 public class OrderManager {
 
-    public List<Order> getSortedOrders (OrderSource source){
-        List<Order> orders = new ArrayList<>(source.read());
-        orders.sort(Comparator.comparing(Order::getTime));
+    public List<Order> getSortedOrders (List<Order> orders){
+        List<Order> sortedOrders = new ArrayList<>(orders);
+        sortedOrders.sort(Comparator.comparing(Order::getTime));
 
-        return orders;
+        return sortedOrders;
     }
 }

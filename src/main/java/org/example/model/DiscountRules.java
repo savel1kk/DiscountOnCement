@@ -1,18 +1,20 @@
 package org.example.model;
 
+import java.math.BigDecimal;
+
 public class DiscountRules {
 
-    private double pricePerKg;
-    private  int startDiscount;
+    private BigDecimal pricePerKg;
+    private int startDiscount;
     private int discountStep;
 
-    public DiscountRules (double pricePerKg, int startDiscount, int discountStep){
+    public DiscountRules (BigDecimal pricePerKg, int startDiscount, int discountStep) {
         this.pricePerKg = pricePerKg;
         this.startDiscount = startDiscount;
         this.discountStep = discountStep;
     }
 
-    public double getPricePerKg() {
+    public BigDecimal getPricePerKg() {
         return pricePerKg;
     }
 
