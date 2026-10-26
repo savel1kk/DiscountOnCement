@@ -23,33 +23,19 @@ public class TxtOrderReader implements OrderSource {
     }
 
     @Override
-    public List<Order> read (String filePath){
-        List<Order> orders = new ArrayList<>();
-
-        try {
-            List<String> lines = Files.readAllLines(Path.of(filePath));
-
-            for(String line : lines){
-                if (line.isBlank()){
-                    continue;
-                }
-
-                Order order = parseLine(line);
-                orders.add(order);
-            }
-
-            return orders;
-        } catch (IOException e){
-            throw new RuntimeException("Ошибка чтения", e);
-        }
+    public boolean isSupported(String firstLine){
+        return firstLine.contains("|");
     }
+
     @Override
-    public boolean isSupported(String filePath){
-        try (Stream<String> lines = Files.lines(Path.of(filePath))) {
-            String firstLine = lines.filter(line -> !line.isBlank()).findFirst().orElse("");
-            return firstLine.contains("|");
-        } catch (IOException e){
-            return false;
-        }
+    public List<Order> read (List<String> lines) {
+        List<Order> orders = new ArrayList<>();
+            for(String line : lines) {
+                if (!line.isBlank()) {
+                    orders.add(parseLine(line));
+                }
+            }
+        return orders;
     }
+
 }

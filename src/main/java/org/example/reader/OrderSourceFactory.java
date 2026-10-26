@@ -6,10 +6,10 @@ import java.util.List;
 
 public class OrderSourceFactory {
 
-    public static OrderSource getSource(String filePath, List<OrderSource> readers){
+    public static OrderSource getSource(String firstLine, List<OrderSource> readers){
         return readers.stream()
-                .filter(reader -> reader.isSupported(filePath))
+                .filter(reader -> reader.isSupported(firstLine))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Неизвестный формат файла" + filePath));
+                .orElseThrow(() -> new RuntimeException("Неизвестный формат файла"));
     }
 }

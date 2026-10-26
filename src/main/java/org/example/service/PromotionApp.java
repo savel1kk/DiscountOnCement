@@ -8,7 +8,10 @@ import org.example.reader.OrderSourceFactory;
 import org.example.writer.FileResultWriter;
 import org.example.writer.ResultWriter;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -32,17 +35,23 @@ public class PromotionApp {
         for(FileTask task : tasks) {
             processFile(task.inputPath(), task.outputPath());
         }
-
         System.out.println("Все файлы успешно обработаны!");
     }
 
-    public void processFile(String inputFilePath, String outputFilePath){
-        System.out.println("Обработка файла: " + inputFilePath + " ... ");
-        OrderSource source = OrderSourceFactory.getSource(inputFilePath, readers);
-        List<Order> orders = source.read(inputFilePath);
-        List<Order> sortedOrders = orderManager.getSortedOrders(orders);
-        Map<String, BigDecimal> results = aggregator.aggregate(sortedOrders, rules);
-        ResultWriter writer = new FileResultWriter(outputFilePath);
-        writer.write(results);
+    private void processFile(String inputFilePath, String outputFilePath){
+       try {
+           List<String> allLines = Files.readAllLines(Path.of(inputFilePath));
+           String firstLine = allLines.stream()
+                   .filter(line -> !line.isBlank())
+                   .findFirst()
+                   .orElse("");
+           OrderSource source = OrderSourceFactory.getSource(firstLine, readers);
+           List<Order> orders = source.read(allLines);
+           Map<String, BigDecimal> results = aggregator.aggregate(orders, rules);
+           ResultWriter writer = new FileResultWriter(outputFilePath);
+           writer.write(results);
+       } catch (IOException e){
+           throw new RuntimeException("Ошибка чтения", e);
+       }
     }
 }
